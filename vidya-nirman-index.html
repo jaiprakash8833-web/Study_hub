@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#5145e5">
+<title>Vidya Nirman | Study Notes</title>
+<style>
+:root{--purple:#5145e5;--ink:#20243a;--muted:#667085;--bg:#f3f4f8;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--purple);color:white;padding:26px 18px 24px;border-radius:0 0 24px 24px}
+header h1{margin:0 0 8px;font-size:27px}header p{margin:0;opacity:.92}
+main{max-width:850px;margin:auto;padding:18px}
+h2{font-size:20px;margin:20px 0 12px}
+.classes{display:flex;gap:10px;overflow-x:auto;padding:3px 0 12px}
+button{font:inherit;cursor:pointer}
+.class-btn,.subject-btn{border:0;background:white;border-radius:13px;padding:13px 18px;font-weight:700;box-shadow:0 2px 8px #20243a12;color:var(--ink);white-space:nowrap}
+.class-btn.active,.subject-btn.active{background:var(--purple);color:white}
+.subjects{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.subject-btn{text-align:left}
+.card{background:var(--card);border-radius:18px;padding:18px;margin-top:18px;box-shadow:0 3px 14px #20243a0d}
+.card h3{color:var(--purple);margin:0 0 12px;font-size:20px}
+.topic{padding:12px 0;border-top:1px solid #edf0f5;line-height:1.5}
+.topic strong{display:block;margin-bottom:4px}
+.small{color:var(--muted);font-size:14px;line-height:1.5}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:24px}
+@media(min-width:650px){.subjects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<header><h1>Vidya Nirman</h1><p>Class 6 to 10 • Quick Revision Notes</p></header>
+<main>
+<h2>Choose your class</h2>
+<div class="classes" id="classes"></div>
+<h2>Choose a subject</h2>
+<div class="subjects" id="subjects"></div>
+<section class="card" aria-live="polite">
+<h3 id="heading">Science: Quick Notes</h3>
+<p class="small" id="intro">Choose a class and subject to explore revision notes.</p>
+<div id="notes"></div>
+</section>
+</main>
+<footer>Made for learning • Vidya Nirman</footer>
+<script>
+const data={
+"Class 6":{
+"Science":[["Living and Non-living Things","Living things grow, need food, respire and reproduce. Non-living things do not perform life processes."],["Materials Around Us","Materials are substances used to make objects. They can be grouped by properties such as hardness, transparency and solubility."]],
+"Mathematics":[["Whole Numbers","Whole numbers are 0 and all natural numbers: 0, 1, 2, 3, ..."],["Factors and Multiples","A factor divides a number exactly. A multiple is obtained by multiplying a number by a whole number."]],
+"English":[["Nouns","A noun is the name of a person, place, animal or thing."],["Verbs","A verb tells us about an action or state."]],
+"Hindi":[["संज्ञा","किसी व्यक्ति, वस्तु, स्थान या भाव के नाम को संज्ञा कहते हैं।"]],
+"SST":[["Our Earth","The Earth is the third planet from the Sun and has land, water and air."]]},
+"Class 7":{
+"Science":[["Nutrition in Plants","Green plants prepare food by photosynthesis using sunlight, water and carbon dioxide."],["Heat","Heat flows from a hotter object to a colder object."]],
+"Mathematics":[["Integers","Integers include negative numbers, zero and positive numbers."],["Fractions","A fraction represents part of a whole and has a numerator and denominator."]],
+"English":[["Adjectives","An adjective describes a noun or pronoun."],["Adverbs","An adverb adds information about a verb, adjective or another adverb."]],
+"Hindi":[["विशेषण","जो शब्द संज्ञा या सर्वनाम की विशेषता बताते हैं, वे विशेषण कहलाते हैं।"]],
+"SST":[["Environment","The environment includes natural and human-made surroundings."]]},
+"Class 8":{
+"Science":[["Crop Production","Agricultural practices include preparation of soil, sowing, irrigation, weeding and harvesting."],["Force and Pressure","A force is a push or pull. Pressure is force per unit area."]],
+"Mathematics":[["Rational Numbers","A rational number can be written as p/q, where p and q are integers and q is not zero."],["Linear Equations","A linear equation in one variable has the variable raised to power one."]],
+"English":[["Tenses","Tense tells the time of an action: present, past or future."],["Voice","Voice shows whether the subject performs or receives an action."]],
+"Hindi":[["उपसर्ग","जो शब्दांश किसी शब्द के पहले जुड़कर उसका अर्थ बदल देते हैं, उपसर्ग कहलाते हैं।"]],
+"SST":[["The Constitution","The Constitution is the supreme law that explains how a country is governed."]]},
+"Class 9":{
+"Science":[["Matter in Our Surroundings","Matter has mass and occupies space. It commonly exists as solid, liquid and gas."],["Atoms and Molecules","Atoms are the basic units of elements. Molecules are made of two or more atoms chemically bonded."],["The Fundamental Unit of Life","The cell is the basic structural and functional unit of life."]],
+"Mathematics":[["Number Systems","Real numbers include rational and irrational numbers. Rational numbers can be written as p/q, q ≠ 0."],["Polynomials","A polynomial is an algebraic expression with variables having non-negative integer powers."],["Coordinate Geometry","A point in a plane is represented by an ordered pair (x, y)."],["Linear Equations in Two Variables","An equation of the form ax + by + c = 0 is a linear equation in two variables."]],
+"English":[["Parts of Speech","Words are grouped by their work in a sentence, such as noun, pronoun, verb, adjective and adverb."],["Tenses","Tenses show when an action happens: present, past or future."]],
+"Hindi":[["उपसर्ग और प्रत्यय","शब्द के पहले जुड़ने वाला अंश उपसर्ग और अंत में जुड़ने वाला अंश प्रत्यय कहलाता है।"]],
+"SST":[["Democracy","Democracy is a form of government in which people choose their representatives."],["The Constitution","A constitution sets out the basic rules, rights and structure of government."]]},
+"Class 10":{
+"Science":[["Chemical Reactions","A chemical reaction changes one or more substances into new substances."],["Life Processes","Nutrition, respiration, transportation and excretion are important life processes."]],
+"Mathematics":[["Real Numbers","The Fundamental Theorem of Arithmetic states that every composite number has a unique prime factorisation."],["Quadratic Equations","A quadratic equation has the form ax² + bx + c = 0, where a ≠ 0."]],
+"English":[["Reported Speech","Reported speech tells what someone said without quoting the exact words."],["Subject-Verb Agreement","The verb must agree with its subject in number and person."]],
+"Hindi":[["समास","दो या दो से अधिक शब्दों के मेल से बने संक्षिप्त शब्द को समास कहते हैं।"]],
+"SST":[["Power Sharing","Power sharing distributes power among different organs and levels of government."]]}
+};
+let currentClass="Class 9",currentSubject="Science";
+const classes=document.getElementById("classes"),subjects=document.getElementById("subjects");
+function render(){
+classes.innerHTML=Object.keys(data).map(c=>`<button class="class-btn ${c===currentClass?'active':''}" data-class="${c}">${c}</button>`).join("");
+classes.querySelectorAll("button").forEach(b=>b.onclick=()=>{currentClass=b.dataset.class;render()});
+const names=Object.keys(data[currentClass]);
+if(!names.includes(currentSubject))currentSubject=names[0];
+subjects.innerHTML=names.map(s=>`<button class="subject-btn ${s===currentSubject?'active':''}" data-subject="${s}">${s}</button>`).join("");
+subjects.querySelectorAll("button").forEach(b=>b.onclick=()=>{currentSubject=b.dataset.subject;render()});
+document.getElementById("heading").textContent=currentSubject+" • "+currentClass;
+document.getElementById("intro").textContent="Quick revision notes. More chapters can be added as the app grows.";
+document.getElementById("notes").innerHTML=data[currentClass][currentSubject].map(([t,n])=>`<div class="topic"><strong>${t}</strong>${n}</div>`).join("");
+}
+render();
+</script>
+</body>
+</html>
