@@ -86,8 +86,16 @@ subjects.innerHTML=names.map(s=>`<button class="subject-btn ${s===currentSubject
 subjects.querySelectorAll("button").forEach(b=>b.onclick=()=>{currentSubject=b.dataset.subject;render()});
 document.getElementById("heading").textContent=currentSubject+" • "+currentClass;
 document.getElementById("intro").textContent="Quick revision notes. More chapters can be added as the app grows.";
-document.getElementById("notes").innerHTML=data[currentClass][currentSubject].map(([t,n])=>`<div class="topic"><strong>${t}</strong>${n}</div>`).join("");
-}
+document.getElementById("notes").innerHTML=data[currentClass][currentSubject].map(([t,n])=>`<div class="topic"><strong>${t}</strong>${n}</div>`).join("");if(currentClass==="Class 9" && currentSubject==="SST"){
+document.getElementById("notes").innerHTML += `
+<div class="topic">
+<strong>Class 9 SST PDF</strong>
+<a href="CWIX932219868%20(1).pdf" target="_blank">
+<button>Open PDF</button>
+</a>
+</div>`;
+  }
+  }
 render();
 </script><footer>
   <h3>Founder: Yatharth Yadav</h3>
