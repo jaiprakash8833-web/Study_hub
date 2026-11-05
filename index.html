@@ -154,10 +154,23 @@ to{width:100%}
  </div>
 
 <script>
+let percent = 0;
+
+let loadingTimer = setInterval(function(){
+  percent++;
+
+  document.getElementById("load-percent").textContent =
+    percent + "%";
+
+  if(percent >= 100){
+    clearInterval(loadingTimer);
+  }
+},25);
+
 window.addEventListener("load",function(){
-setTimeout(function(){
-document.getElementById("studyhub-loader").style.display="none";
-},2000);
+  setTimeout(function(){
+    document.getElementById("studyhub-loader").style.display="none";
+  },2500);
 });
 </script>
 
