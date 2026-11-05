@@ -141,13 +141,17 @@ to{width:100%}
 
 <body>
 
-<div id="studyhub-loader">
-<img src="file_000000002bf4821186a176092ef3ab6a.png">
-<h2>STUDY_HUB</h2>
-<p>Dream Big • Study Hard • Achieve More</p>
-<div class="loader-spinner"></div>
-<p>Loading...</p>
-</div>
+ <div id="studyhub-loader">
+  <img src="file_000000002bf4821186a176092ef3ab6a.png">
+  <h2>STUDY_HUB</h2>
+  <p>Dream Big • Study Hard • Achieve More</p>
+
+  <div class="loader-bar">
+    <div class="loader-progress"></div>
+  </div>
+
+  <p>Loading... <span id="load-percent">0%</span></p>
+ </div>
 
 <script>
 window.addEventListener("load",function(){
