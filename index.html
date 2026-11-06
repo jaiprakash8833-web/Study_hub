@@ -394,6 +394,132 @@ style="color:#00D9FF;text-decoration:none;font-weight:bold;">
 
 </section>
 
+<!-- STUDY HUB CHAT BOX -->
+<style>
+#chat-button{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#00D9FF;
+color:#061426;
+border:none;
+border-radius:50px;
+padding:15px 20px;
+font-size:16px;
+font-weight:bold;
+z-index:9999;
+box-shadow:0 4px 15px #00D9FF55;
+}
 
+#chat-box{
+display:none;
+position:fixed;
+bottom:85px;
+right:15px;
+width:300px;
+max-width:90%;
+height:400px;
+background:#0D2035;
+border:1px solid #00D9FF;
+border-radius:18px;
+z-index:9999;
+overflow:hidden;
+box-shadow:0 5px 25px #0008;
+}
+
+#chat-header{
+background:#00D9FF;
+color:#061426;
+padding:15px;
+font-weight:bold;
+}
+
+#chat-messages{
+height:280px;
+overflow-y:auto;
+padding:12px;
+color:white;
+font-size:14px;
+}
+
+.chat-input{
+display:flex;
+padding:8px;
+gap:5px;
+}
+
+#chat-input{
+width:75%;
+padding:10px;
+border-radius:8px;
+border:none;
+}
+
+#chat-send{
+background:#00D9FF;
+border:none;
+border-radius:8px;
+padding:10px;
+font-weight:bold;
+}
+</style>
+
+<button id="chat-button" onclick="toggleChat()">
+💬 Study AI
+</button>
+
+<div id="chat-box">
+  <div id="chat-header">
+    🤖 Study_Hub Assistant
+    <span onclick="toggleChat()" style="float:right;cursor:pointer;">✖</span>
+  </div>
+
+  <div id="chat-messages">
+    <p>🤖 Hello! Welcome to Study_Hub.</p>
+    <p>📚 Ask me a Class 9 study question!</p>
+    <small>Demo Mode — AI is not connected yet.</small>
+  </div>
+
+  <div class="chat-input">
+    <input id="chat-input" placeholder="Ask your question...">
+    <button id="chat-send" onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<script>
+function toggleChat(){
+let box=document.getElementById("chat-box");
+box.style.display=box.style.display==="block"?"none":"block";
+}
+
+function sendMessage(){
+let input=document.getElementById("chat-input");
+let message=input.value.trim();
+if(!message)return;
+
+let area=document.getElementById("chat-messages");
+area.innerHTML+="<p>👤 "+message.replace(/</g,"&lt;")+"</p>";
+
+let reply="I am currently in Demo Mode. Real AI will be connected later!";
+
+if(message.toLowerCase().includes("hello") || message.toLowerCase().includes("hi")){
+reply="Hello! Welcome to Study_Hub. How can I help you?";
+}
+else if(message.toLowerCase().includes("math")){
+reply="Maths is easy with practice! Tell me which chapter you want to study.";
+}
+else if(message.toLowerCase().includes("science")){
+reply="Science helps us understand the world. Which topic do you want to learn?";
+}
+else if(message.toLowerCase().includes("class 9")){
+reply="Welcome Class 9 student! Ask me about Maths, Science, English or SST.";
+}
+
+area.innerHTML+="<p>🤖 "+reply+"</p>";
+area.scrollTop=area.scrollHeight;
+input.value="";
+}
+</script>
+<!-- END STUDY HUB CHAT BOX -->
 </body>
 </html>
