@@ -492,33 +492,47 @@ let box=document.getElementById("chat-box");
 box.style.display=box.style.display==="block"?"none":"block";
 }
 
+
 function sendMessage(){
-let input=document.getElementById("chat-input");
-let message=input.value.trim();
-if(!message)return;
+  let input = document.getElementById("chat-input");
+  let message = input.value.trim().toLowerCase();
+  if(!message) return;
 
-let area=document.getElementById("chat-messages");
-area.innerHTML+="<p>👤 "+message.replace(/</g,"&lt;")+"</p>";
+  let area = document.getElementById("chat-messages");
 
-let reply="I am currently in Demo Mode. Real AI will be connected later!";
+  let userMsg = document.createElement("p");
+  userMsg.textContent = "👤 " + input.value;
+  area.appendChild(userMsg);
 
-if(message.toLowerCase().includes("hello") || message.toLowerCase().includes("hi")){
-reply="Hello! Welcome to Study_Hub. How can I help you?";
-}
-else if(message.toLowerCase().includes("math")){
-reply="Maths is easy with practice! Tell me which chapter you want to study.";
-}
-else if(message.toLowerCase().includes("science")){
-reply="Science helps us understand the world. Which topic do you want to learn?";
-}
-else if(message.toLowerCase().includes("class 9")){
-reply="Welcome Class 9 student! Ask me about Maths, Science, English or SST.";
-}
+  let reply = "मुझे इस सवाल का जवाब अभी अपने Notes में नहीं मिला। कृपया विषय और अध्याय का नाम बताओ।";
 
-area.innerHTML+="<p>🤖 "+reply+"</p>";
-area.scrollTop=area.scrollHeight;
-input.value="";
-}
+  if(message.includes("hello") || message.includes("hi") || message.includes("नमस्ते")){
+    reply = "Hello! Welcome to Study_Hub. 😊 आज क्या पढ़ना चाहते हो?";
+  }
+  else if(message.includes("math") || message.includes("गणित")){
+    reply = "Maths में किस विषय में मदद चाहिए? Algebra, Geometry, Number System या कोई दूसरा Chapter?";
+  }
+  else if(message.includes("science") || message.includes("विज्ञान")){
+    reply = "Science में मदद के लिए अपना Topic बताओ। जैसे Motion, Force, Matter या Mixtures.";
+  }
+  else if(message.includes("sst") || message.includes("social science")){
+    reply = "SST में History, Geography, Civics या Economics में से क्या पढ़ना है?";
+  }
+  else if(message.includes("class 9") || message.includes("कक्षा 9")){
+    reply = "Welcome Class 9 student! मैं Maths, Science और SST के Topics में मदद कर सकता हूँ।";
+  }
+  else if(message.includes("thank")){
+    reply = "You're welcome! 😊 Keep learning with Study_Hub.";
+  }
+
+  let botMsg = document.createElement("p");
+  botMsg.textContent = "🤖 " + reply;
+  area.appendChild(botMsg);
+
+  area.scrollTop = area.scrollHeight;
+  input.value = "";
+  }
+  
 </script>
 <!-- END STUDY HUB CHAT BOX -->
 </body>
