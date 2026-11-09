@@ -546,9 +546,9 @@ z-index:9998;
 }
 #study-ai-box iframe{
 width:100%;
-height:100%;
+height:calc(100% - 45px);
 border:0;
-}
+  }
 </style>
 
 <button id="study-ai-btn" onclick="
@@ -558,8 +558,21 @@ box.style.display=box.style.display==='block'?'none':'block';
 💬 Study AI
 </button>
 
+
 <div id="study-ai-box">
+
+<button onclick="document.getElementById('study-ai-box').style.display='none';"
+style="width:100%;padding:12px;background:#00D9FF;color:#061426;border:0;font-weight:bold;font-size:16px;">
+✖ Close AI
+</button>
+
 <iframe
+src="https://udify.app/chatbot/4zUmPhc4guYjboZl"
+allow="microphone;clipboard-write">
+</iframe>
+
+</div>
+  
 src="https://udify.app/chatbot/4zUmPhc4guYjboZl"
 allow="microphone;clipboard-write">
 </iframe>
