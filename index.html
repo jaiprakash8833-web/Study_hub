@@ -517,159 +517,24 @@ style="color:#00D9FF;text-decoration:none;font-weight:bold;">
 </p>
 
 </section>
+<!-- STUDY HUB AI -->
+<section style="margin:20px; padding:15px; background:#0D2035; border:1px solid #00D9FF; border-radius:18px;">
 
-<!-- STUDY HUB CHAT BOX -->
-<style>
-#chat-button{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#00D9FF;
-color:#061426;
-border:none;
-border-radius:50px;
-padding:15px 20px;
-font-size:16px;
-font-weight:bold;
-z-index:9999;
-box-shadow:0 4px 15px #00D9FF55;
-}
+<h2 style="color:#00D9FF; text-align:center;">
+🤖 Study_Hub AI
+</h2>
 
-#chat-box{
-display:none;
-position:fixed;
-bottom:85px;
-right:15px;
-width:300px;
-max-width:90%;
-height:400px;
-background:#0D2035;
-border:1px solid #00D9FF;
-border-radius:18px;
-z-index:9999;
-overflow:hidden;
-box-shadow:0 5px 25px #0008;
-}
+<p style="color:#EAF6FF; text-align:center;">
+Ask questions and learn with AI.
+</p>
 
-#chat-header{
-background:#00D9FF;
-color:#061426;
-padding:15px;
-font-weight:bold;
-}
+<iframe
+src="https://udify.app/chatbot/4zUmPhc4guYjboZl"
+style="width:100%; height:700px; border:0; border-radius:12px;"
+allow="microphone;clipboard-write">
+</iframe>
 
-#chat-messages{
-height:280px;
-overflow-y:auto;
-padding:12px;
-color:white;
-font-size:14px;
-}
-
-.chat-input{
-display:flex;
-padding:8px;
-gap:5px;
-}
-
-#chat-input{
-width:75%;
-padding:10px;
-border-radius:8px;
-border:none;
-}
-
-#chat-send{
-background:#00D9FF;
-border:none;
-border-radius:8px;
-padding:10px;
-font-weight:bold;
-}
-</style>
-
-<button id="chat-button" onclick="toggleChat()">
-💬 Study AI
-</button>
-
-<div id="chat-box">
-  <div id="chat-header">
-    🤖 Study_Hub Assistant
-    <span onclick="toggleChat()" style="float:right;cursor:pointer;">✖</span>
-  </div>
-
-  <div id="chat-messages">
-    <p>🤖 Hello! Welcome to Study_Hub.</p>
-    <p>📚 Ask me a Class 9 study question!</p>
-    <small>Demo Mode — AI is not connected yet.</small>
-  </div>
-
-  <div class="chat-input">
-    <input id="chat-input" placeholder="Ask your question...">
-    <button id="chat-send" onclick="sendMessage()">Send</button>
-  </div>
-</div>
-
-<script>
-function toggleChat(){
-let box=document.getElementById("chat-box");
-box.style.display=box.style.display==="block"?"none":"block";
-}
-
-  
-async function sendMessage(){
-  let input = document.getElementById("chat-input");
-  let message = input.value.trim();
-  if(!message) return;
-
-  let area = document.getElementById("chat-messages");
-
-  let userMsg = document.createElement("p");
-  userMsg.textContent = "👤 " + message;
-  area.appendChild(userMsg);
-
-  let botMsg = document.createElement("p");
-  botMsg.textContent = "🤖 जवाब तैयार हो रहा है...";
-  area.appendChild(botMsg);
-
-  input.value = "";
-  area.scrollTop = area.scrollHeight;
-
-  try {
-    const response = await fetch(
-      "https://udify.app/v1/chat-messages",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          inputs: {},
-          query: message,
-          response_mode: "blocking",
-          user: "study-hub-student"
-        })
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error("AI response failed");
-    }
-
-    const data = await response.json();
-    botMsg.textContent = "🤖 " + data.answer;
-
-  } catch (error) {
-    botMsg.textContent =
-      "🤖 AI से संपर्क नहीं हो पाया। कृपया दोबारा कोशिश करें।";
-  }
-
-  area.scrollTop = area.scrollHeight;
-  }
-  
-
-  
-</script>
-<!-- END STUDY HUB CHAT BOX -->
+</section>
+<!-- END STUDY HUB AI -->
 </body>
 </html>
