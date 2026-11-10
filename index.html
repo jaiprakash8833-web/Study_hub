@@ -577,42 +577,109 @@ src="https://udify.app/chatbot/4zUmPhc4guYjboZl"
 allow="microphone;clipboard-write">
 </iframe>
 </div>
-  
-<!-- STUDY HUB GOOGLE LOGIN -->
+ <!-- STUDY HUB LOGIN BUTTON -->
+
 <style>
-#study-login {
-  max-width: 500px;
-  margin: 20px auto;
-  padding: 20px;
-  background: #0D2035;
-  border: 1px solid #00D9FF;
-  border-radius: 16px;
-  text-align: center;
-  color: #EAF6FF;
+#study-login-fab{
+  position:fixed;
+  bottom:20px;
+  left:20px;
+  z-index:10000;
+  background:#00D9FF;
+  color:#061426;
+  border:0;
+  border-radius:50px;
+  padding:15px 22px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
 }
-#study-login button {
-  padding: 12px 20px;
-  margin: 8px;
-  border: 0;
-  border-radius: 25px;
-  background: #00D9FF;
-  color: #061426;
-  font-weight: bold;
+
+#study-login-popup{
+  display:none;
+  position:fixed;
+  bottom:85px;
+  left:12px;
+  width:min(360px,calc(100% - 24px));
+  background:#0D2035;
+  color:#EAF6FF;
+  border:2px solid #00D9FF;
+  border-radius:16px;
+  padding:20px;
+  z-index:9999;
+  box-shadow:0 5px 25px #0008;
 }
-#study-user {
-  color: #00D9FF;
-  margin: 12px;
+
+#study-login-popup button{
+  cursor:pointer;
+}
+
+#study-login-close{
+  float:right;
+  background:transparent;
+  color:white;
+  border:0;
+  font-size:22px;
+}
+
+#study-google-login{
+  width:100%;
+  padding:13px;
+  margin-top:18px;
+  border:0;
+  border-radius:10px;
+  background:#00D9FF;
+  color:#061426;
+  font-weight:bold;
+  font-size:15px;
+}
+
+#study-google-logout{
+  display:none;
+  width:100%;
+  padding:12px;
+  margin-top:15px;
+  border:1px solid #00D9FF;
+  border-radius:10px;
+  background:transparent;
+  color:#00D9FF;
+  font-weight:bold;
+}
+
+#study-login-status{
+  margin-top:15px;
+  font-size:14px;
+  overflow-wrap:anywhere;
 }
 </style>
 
-<section id="study-login">
-  <h2 style="color:#00D9FF">STUDY HUB LOGIN</h2>
-  <p id="study-user">Login करके अपनी पढ़ाई शुरू करें</p>
-  <button id="google-login">🔐 Login with Google</button>
-  <button id="google-logout" style="display:none">Logout</button>
-</section>
+<button id="study-login-fab">
+  👤 Login
+</button>
+
+<div id="study-login-popup">
+
+  <button id="study-login-close">×</button>
+
+  <h3>Welcome to Study_Hub</h3>
+  <p>Login to your student account</p>
+
+  <div id="study-login-status">
+    Please login with Google.
+  </div>
+
+  <button id="study-google-login">
+    🌐 Continue with Google
+  </button>
+
+  <button id="study-google-logout">
+    Logout
+  </button>
+
+</div>
 
 <script type="module">
+
 import { initializeApp }
 from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
 
@@ -623,7 +690,9 @@ import {
   getRedirectResult,
   onAuthStateChanged,
   signOut
-} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js";
+}
+from "https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCKZCoaHQETVElo4-gV5HX9WmVRcopCLCE",
@@ -639,45 +708,102 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-const loginBtn = document.getElementById("google-login");
-const logoutBtn = document.getElementById("google-logout");
-const userText = document.getElementById("study-user");
+provider.setCustomParameters({
+  prompt: "select_account"
+});
 
-loginBtn.onclick = async () => {
+const loginBtn =
+document.getElementById("study-login-fab");
+
+const popup =
+document.getElementById("study-login-popup");
+
+const closeBtn =
+document.getElementById("study-login-close");
+
+const googleBtn =
+document.getElementById("study-google-login");
+
+const logoutBtn =
+document.getElementById("study-google-logout");
+
+const statusBox =
+document.getElementById("study-login-status");
+
+
+loginBtn.onclick = () => {
+  popup.style.display =
+  popup.style.display === "block" ? "none" : "block";
+};
+
+closeBtn.onclick = () => {
+  popup.style.display = "none";
+};
+
+
+// GOOGLE LOGIN
+
+googleBtn.onclick = async () => {
+  statusBox.innerText = "Opening Google Login...";
+
   try {
     await signInWithRedirect(auth, provider);
   } catch (error) {
-    alert("Login error: " + error.message);
+    statusBox.innerText = "Login error: " + error.message;
   }
 };
 
-logoutBtn.onclick = async () => {
-  try {
-    await signOut(auth);
-  } catch (error) {
-    alert("Logout error: " + error.message);
-  }
-};
+
+// REDIRECT RESULT
 
 getRedirectResult(auth).catch(error => {
-  console.error("Google login error:", error);
-  alert("Login nahi ho paya. Dobara try karein.");
+  statusBox.innerText = "Login error: " + error.message;
 });
 
+
+// LOGIN STATUS
+
 onAuthStateChanged(auth, user => {
+
   if (user) {
-    userText.textContent =
-      "Welcome, " + (user.displayName || user.email);
-    loginBtn.style.display = "none";
-    logoutBtn.style.display = "inline-block";
+
+    statusBox.innerHTML =
+      "Welcome, <b>" +
+      (user.displayName || "Student") +
+      "</b><br>" +
+      (user.email || "");
+
+    googleBtn.style.display = "none";
+    logoutBtn.style.display = "block";
+    loginBtn.innerText = "👤 My Account";
+
   } else {
-    userText.textContent = "Login करके अपनी पढ़ाई शुरू करें";
-    loginBtn.style.display = "inline-block";
+
+    statusBox.innerText = "Please login with Google.";
+
+    googleBtn.style.display = "block";
     logoutBtn.style.display = "none";
+    loginBtn.innerText = "👤 Login";
+
   }
+
 });
-</script>
-<!-- END STUDY HUB GOOGLE LOGIN -->
-  
+
+
+// LOGOUT
+
+logoutBtn.onclick = async () => {
+
+  try {
+    await signOut(auth);
+    statusBox.innerText = "You have logged out.";
+
+  } catch (error) {
+    statusBox.innerText = error.message;
+  }
+
+};
+
+</script>  
 </body>
 </html>
