@@ -577,5 +577,107 @@ src="https://udify.app/chatbot/4zUmPhc4guYjboZl"
 allow="microphone;clipboard-write">
 </iframe>
 </div>
+  
+<!-- STUDY HUB GOOGLE LOGIN -->
+<style>
+#study-login {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #0D2035;
+  border: 1px solid #00D9FF;
+  border-radius: 16px;
+  text-align: center;
+  color: #EAF6FF;
+}
+#study-login button {
+  padding: 12px 20px;
+  margin: 8px;
+  border: 0;
+  border-radius: 25px;
+  background: #00D9FF;
+  color: #061426;
+  font-weight: bold;
+}
+#study-user {
+  color: #00D9FF;
+  margin: 12px;
+}
+</style>
+
+<section id="study-login">
+  <h2 style="color:#00D9FF">STUDY HUB LOGIN</h2>
+  <p id="study-user">Login करके अपनी पढ़ाई शुरू करें</p>
+  <button id="google-login">🔐 Login with Google</button>
+  <button id="google-logout" style="display:none">Logout</button>
+</section>
+
+<script type="module">
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
+
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithRedirect,
+  getRedirectResult,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCKZCoaHQETVElo4-gV5HX9WmVRcopCLCE",
+  authDomain: "study-hub-fd71c.firebaseapp.com",
+  projectId: "study-hub-fd71c",
+  storageBucket: "study-hub-fd71c.firebasestorage.app",
+  messagingSenderId: "312331256354",
+  appId: "1:312331256354:web:e0c625c9f71b87de20007b",
+  measurementId: "G-01FN6QXGJ4"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+const loginBtn = document.getElementById("google-login");
+const logoutBtn = document.getElementById("google-logout");
+const userText = document.getElementById("study-user");
+
+loginBtn.onclick = async () => {
+  try {
+    await signInWithRedirect(auth, provider);
+  } catch (error) {
+    alert("Login error: " + error.message);
+  }
+};
+
+logoutBtn.onclick = async () => {
+  try {
+    await signOut(auth);
+  } catch (error) {
+    alert("Logout error: " + error.message);
+  }
+};
+
+getRedirectResult(auth).catch(error => {
+  console.error("Google login error:", error);
+  alert("Login nahi ho paya. Dobara try karein.");
+});
+
+onAuthStateChanged(auth, user => {
+  if (user) {
+    userText.textContent =
+      "Welcome, " + (user.displayName || user.email);
+    loginBtn.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+  } else {
+    userText.textContent = "Login करके अपनी पढ़ाई शुरू करें";
+    loginBtn.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+  }
+});
+</script>
+<!-- END STUDY HUB GOOGLE LOGIN -->
+  
 </body>
 </html>
