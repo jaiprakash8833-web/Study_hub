@@ -805,5 +805,82 @@ logoutBtn.onclick = async () => {
 };
 
 </script>  
+  
+<!-- STUDY HUB QUIZ BATTLE -->
+
+<style>
+#sh-quiz-section {
+  background: #0D2035;
+  color: #EAF6FF;
+  border: 2px solid #00D9FF;
+  border-radius: 18px;
+  padding: 22px;
+  margin: 25px 12px;
+  text-align: center;
+}
+
+#sh-quiz-section h2 {
+  color: #00D9FF;
+  font-size: 26px;
+}
+
+#sh-quiz-section p {
+  color: #A8BDCC;
+}
+
+#sh-quiz-start {
+  background: #00D9FF;
+  color: #061426;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 25px;
+  font-size: 16px;
+  font-weight: bold;
+  width: 100%;
+  margin-top: 12px;
+}
+
+#sh-quiz-screen {
+  display: none;
+  margin-top: 18px;
+  padding: 15px;
+  background: #17324D;
+  border-radius: 12px;
+}
+</style>
+
+<div id="sh-quiz-section">
+
+  <h2>⚡ QUIZ BATTLE</h2>
+
+  <h3>Class 9 Science</h3>
+
+  <p>Test Your Knowledge!</p>
+
+  <p>10 Questions | 10 Seconds | 100 Points</p>
+
+  <button id="sh-quiz-start">
+    🚀 START QUIZ
+  </button>
+
+  <div id="sh-quiz-screen">
+    <h3>Get Ready!</h3>
+    <p>Our first Science questions are coming soon.</p>
+  </div>
+
+</div>
+
+<script>
+document.getElementById("sh-quiz-start")
+.addEventListener("click", function() {
+
+  document.getElementById("sh-quiz-screen")
+  .style.display = "block";
+
+  this.style.display = "none";
+
+});
+</script>
+
 </body>
 </html>
