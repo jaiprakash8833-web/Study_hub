@@ -806,81 +806,244 @@ logoutBtn.onclick = async () => {
 
 </script>  
   
-<!-- STUDY HUB QUIZ BATTLE -->
-
 <style>
 #sh-quiz-section {
-  background: #0D2035;
-  color: #EAF6FF;
-  border: 2px solid #00D9FF;
-  border-radius: 18px;
-  padding: 22px;
-  margin: 25px 12px;
-  text-align: center;
+  background:#0D2035;
+  color:#EAF6FF;
+  border:2px solid #00D9FF;
+  border-radius:18px;
+  padding:20px;
+  margin:25px 12px;
+  text-align:center;
 }
-
-#sh-quiz-section h2 {
-  color: #00D9FF;
-  font-size: 26px;
+#sh-quiz-section h2 {color:#00D9FF;}
+#sh-quiz-section button {
+  cursor:pointer;
+  border-radius:10px;
+  padding:13px;
+  font-weight:bold;
 }
-
-#sh-quiz-section p {
-  color: #A8BDCC;
-}
-
 #sh-quiz-start {
-  background: #00D9FF;
-  color: #061426;
-  border: none;
-  border-radius: 12px;
-  padding: 14px 25px;
-  font-size: 16px;
-  font-weight: bold;
-  width: 100%;
-  margin-top: 12px;
+  width:100%;
+  background:#00D9FF;
+  color:#061426;
+  border:0;
 }
-
-#sh-quiz-screen {
-  display: none;
-  margin-top: 18px;
-  padding: 15px;
-  background: #17324D;
-  border-radius: 12px;
+.sh-option {
+  display:block;
+  width:100%;
+  margin:10px 0;
+  background:#17324D;
+  color:white;
+  border:1px solid #00D9FF;
 }
+.sh-option:disabled {opacity:0.75;}
+#sh-quiz-next {
+  display:none;
+  width:100%;
+  margin-top:15px;
+  background:#00D9FF;
+  color:#061426;
+  border:0;
+}
+#sh-quiz-feedback {margin:15px 0;}
 </style>
 
 <div id="sh-quiz-section">
-
   <h2>⚡ QUIZ BATTLE</h2>
-
   <h3>Class 9 Science</h3>
-
   <p>Test Your Knowledge!</p>
 
-  <p>10 Questions | 10 Seconds | 100 Points</p>
+  <button id="sh-quiz-start">🚀 START QUIZ</button>
 
-  <button id="sh-quiz-start">
-    🚀 START QUIZ
-  </button>
-
-  <div id="sh-quiz-screen">
-    <h3>Get Ready!</h3>
-    <p>Our first Science questions are coming soon.</p>
+  <div id="sh-quiz-screen" style="display:none">
+    <p id="sh-quiz-progress"></p>
+    <h3 id="sh-quiz-question"></h3>
+    <div id="sh-quiz-options"></div>
+    <p id="sh-quiz-feedback"></p>
+    <button id="sh-quiz-next">NEXT QUESTION →</button>
   </div>
 
+  <div id="sh-quiz-result" style="display:none">
+    <h2>🏆 QUIZ COMPLETED!</h2>
+    <h3 id="sh-quiz-score"></h3>
+    <button id="sh-quiz-restart"
+      style="background:#00D9FF;color:#061426;border:0;width:100%">
+      PLAY AGAIN
+    </button>
+  </div>
 </div>
 
 <script>
-document.getElementById("sh-quiz-start")
-.addEventListener("click", function() {
+(function(){
 
-  document.getElementById("sh-quiz-screen")
-  .style.display = "block";
+const questions = [
+{
+q:"What is the basic unit of life?",
+o:["Tissue","Cell","Organ","Organ system"],
+a:1
+},
+{
+q:"Which organelle is called the powerhouse of the cell?",
+o:["Nucleus","Ribosome","Mitochondria","Vacuole"],
+a:2
+},
+{
+q:"What is the SI unit of force?",
+o:["Joule","Newton","Watt","Pascal"],
+a:1
+},
+{
+q:"Which state of matter has a definite shape and volume?",
+o:["Solid","Liquid","Gas","All of these"],
+a:0
+},
+{
+q:"What is the chemical formula of water?",
+o:["CO2","O2","H2O","NaCl"],
+a:2
+},
+{
+q:"Which tissue transports water in plants?",
+o:["Phloem","Xylem","Epidermis","Meristem"],
+a:1
+},
+{
+q:"Which particle has a negative charge?",
+o:["Proton","Neutron","Electron","Nucleus"],
+a:2
+},
+{
+q:"What is the speed of an object that covers 100 m in 20 seconds?",
+o:["2 m/s","5 m/s","10 m/s","20 m/s"],
+a:1
+},
+{
+q:"Which gas is necessary for respiration?",
+o:["Nitrogen","Oxygen","Hydrogen","Carbon dioxide"],
+a:1
+},
+{
+q:"What is the approximate value of acceleration due to gravity on Earth?",
+o:["4.8 m/s²","6.8 m/s²","9.8 m/s²","12.8 m/s²"],
+a:2
+}
+];
 
-  this.style.display = "none";
+let current = 0;
+let score = 0;
+let answered = false;
 
-});
+const start = document.getElementById("sh-quiz-start");
+const screen = document.getElementById("sh-quiz-screen");
+const result = document.getElementById("sh-quiz-result");
+const question = document.getElementById("sh-quiz-question");
+const options = document.getElementById("sh-quiz-options");
+const progress = document.getElementById("sh-quiz-progress");
+const feedback = document.getElementById("sh-quiz-feedback");
+const next = document.getElementById("sh-quiz-next");
+
+function showQuestion(){
+
+  answered = false;
+  const item = questions[current];
+
+  progress.innerText =
+    "Question " + (current+1) + " / " + questions.length +
+    " | Score: " + score;
+
+  question.innerText = item.q;
+  options.innerHTML = "";
+  feedback.innerText = "";
+  next.style.display = "none";
+
+  item.o.forEach((option,index)=>{
+
+    const btn = document.createElement("button");
+    btn.className = "sh-option";
+    btn.innerText = option;
+
+    btn.onclick = ()=>checkAnswer(index);
+
+    options.appendChild(btn);
+
+  });
+}
+
+function checkAnswer(index){
+
+  if(answered) return;
+  answered = true;
+
+  const correct = questions[current].a;
+  const buttons = options.querySelectorAll("button");
+
+  buttons.forEach(btn=>btn.disabled=true);
+
+  if(index === correct){
+
+    score += 10;
+    feedback.innerText = "✅ Correct! +10 Points";
+
+  } else {
+
+    feedback.innerText =
+      "❌ Wrong! Correct answer: " +
+      questions[current].o[correct];
+
+  }
+
+  progress.innerText =
+    "Question " + (current+1) + " / " +
+    questions.length + " | Score: " + score;
+
+  next.style.display = "block";
+}
+
+function finishQuiz(){
+
+  screen.style.display = "none";
+  result.style.display = "block";
+
+  document.getElementById("sh-quiz-score").innerText =
+    score + " / 100 Points";
+
+}
+
+start.onclick = ()=>{
+
+  current = 0;
+  score = 0;
+
+  start.style.display = "none";
+  result.style.display = "none";
+  screen.style.display = "block";
+
+  showQuestion();
+
+};
+
+next.onclick = ()=>{
+
+  current++;
+
+  if(current < questions.length){
+    showQuestion();
+  } else {
+    finishQuiz();
+  }
+
+};
+
+document.getElementById("sh-quiz-restart").onclick = ()=>{
+
+  result.style.display = "none";
+  start.style.display = "block";
+
+};
+
+})();
 </script>
-
+  
 </body>
 </html>
