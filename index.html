@@ -817,17 +817,27 @@ logoutBtn.onclick = async () => {
   text-align:center;
 }
 #sh-quiz-section h2 {color:#00D9FF;}
-#sh-quiz-section button {
+#sh-quiz-section button,
+#sh-quiz-section select {
   cursor:pointer;
   border-radius:10px;
   padding:13px;
   font-weight:bold;
+  font-size:15px;
 }
-#sh-quiz-start {
+#sh-quiz-section select {
+  width:100%;
+  margin:8px 0;
+  background:#17324D;
+  color:white;
+  border:1px solid #00D9FF;
+}
+#sh-quiz-start,#sh-quiz-next,#sh-quiz-restart {
   width:100%;
   background:#00D9FF;
   color:#061426;
   border:0;
+  margin-top:12px;
 }
 .sh-option {
   display:block;
@@ -837,27 +847,49 @@ logoutBtn.onclick = async () => {
   color:white;
   border:1px solid #00D9FF;
 }
-.sh-option:disabled {opacity:0.75;}
-#sh-quiz-next {
-  display:none;
-  width:100%;
-  margin-top:15px;
-  background:#00D9FF;
-  color:#061426;
-  border:0;
-}
+.sh-option:disabled {opacity:.8;}
+#sh-quiz-next {display:none;}
 #sh-quiz-feedback {margin:15px 0;}
+#sh-quiz-timer {color:#00D9FF;font-weight:bold;}
 </style>
 
 <div id="sh-quiz-section">
   <h2>⚡ QUIZ BATTLE</h2>
-  <h3>Class 9 Science</h3>
   <p>Test Your Knowledge!</p>
 
-  <button id="sh-quiz-start">🚀 START QUIZ</button>
+  <div id="sh-quiz-setup">
+    <select id="sh-quiz-class">
+      <option value="">Select Class</option>
+      <option>Class 6</option>
+      <option>Class 7</option>
+      <option>Class 8</option>
+      <option>Class 9</option>
+      <option>Class 10</option>
+    </select>
+
+    <select id="sh-quiz-subject">
+      <option value="">Select Subject</option>
+      <option>Science</option>
+      <option>Mathematics</option>
+      <option>English</option>
+      <option>Hindi</option>
+      <option>SST</option>
+    </select>
+
+    <select id="sh-quiz-level">
+      <option value="All">All Difficulty Levels</option>
+      <option value="Easy">Easy</option>
+      <option value="Medium">Medium</option>
+      <option value="Hard">Hard</option>
+    </select>
+
+    <button id="sh-quiz-start">🚀 START QUIZ</button>
+    <p id="sh-quiz-message"></p>
+  </div>
 
   <div id="sh-quiz-screen" style="display:none">
     <p id="sh-quiz-progress"></p>
+    <p id="sh-quiz-timer">⏱️ 30 seconds</p>
     <h3 id="sh-quiz-question"></h3>
     <div id="sh-quiz-options"></div>
     <p id="sh-quiz-feedback"></p>
@@ -867,183 +899,198 @@ logoutBtn.onclick = async () => {
   <div id="sh-quiz-result" style="display:none">
     <h2>🏆 QUIZ COMPLETED!</h2>
     <h3 id="sh-quiz-score"></h3>
-    <button id="sh-quiz-restart"
-      style="background:#00D9FF;color:#061426;border:0;width:100%">
-      PLAY AGAIN
-    </button>
+    <p id="sh-quiz-message-result"></p>
+    <button id="sh-quiz-restart">PLAY AGAIN</button>
   </div>
 </div>
 
 <script>
 (function(){
+  const banks = {
+    "Class 9|Science": [
+      {q:"What is the basic unit of life?",o:["Tissue","Cell","Organ","Organ system"],a:1,d:"Easy"},
+      {q:"Which organelle is called the powerhouse of the cell?",o:["Nucleus","Ribosome","Mitochondria","Vacuole"],a:2,d:"Easy"},
+      {q:"What is the SI unit of force?",o:["Joule","Newton","Watt","Pascal"],a:1,d:"Easy"},
+      {q:"Which state of matter has a definite shape and volume?",o:["Solid","Liquid","Gas","All"],a:0,d:"Easy"},
+      {q:"What is the chemical formula of water?",o:["CO2","O2","H2O","NaCl"],a:2,d:"Easy"},
+      {q:"Which tissue transports water in plants?",o:["Phloem","Xylem","Epidermis","Meristem"],a:1,d:"Easy"},
+      {q:"Which particle has a negative charge?",o:["Proton","Neutron","Electron","Nucleus"],a:2,d:"Easy"},
+      {q:"A body covers 100 m in 20 s. What is its speed?",o:["2 m/s","5 m/s","10 m/s","20 m/s"],a:1,d:"Medium"},
+      {q:"Which gas is needed for aerobic respiration?",o:["Nitrogen","Oxygen","Hydrogen","Carbon dioxide"],a:1,d:"Easy"},
+      {q:"What is the approximate value of g on Earth?",o:["4.8 m/s²","6.8 m/s²","9.8 m/s²","12.8 m/s²"],a:2,d:"Easy"},
+      {q:"Which part of a cell controls its activities?",o:["Cell wall","Nucleus","Vacuole","Cytoplasm"],a:1,d:"Easy"},
+      {q:"Which method is used to separate cream from milk?",o:["Filtration","Sublimation","Centrifugation","Evaporation"],a:2,d:"Medium"},
+      {q:"The smallest particle of an element that retains its properties is:",o:["Molecule","Atom","Cell","Compound"],a:1,d:"Easy"},
+      {q:"Which law states that mass is neither created nor destroyed in a chemical reaction?",o:["Law of constant proportions","Law of conservation of mass","Newton's law","Ohm's law"],a:1,d:"Medium"},
+      {q:"What is the SI unit of work?",o:["Newton","Watt","Joule","Pascal"],a:2,d:"Easy"},
+      {q:"A force of 10 N acts on a mass of 2 kg. Find acceleration.",o:["2 m/s²","5 m/s²","10 m/s²","20 m/s²"],a:1,d:"Medium"},
+      {q:"Which plant tissue is responsible for growth?",o:["Permanent tissue","Meristematic tissue","Xylem","Phloem"],a:1,d:"Medium"},
+      {q:"Which organelle contains chlorophyll?",o:["Mitochondrion","Chloroplast","Nucleus","Ribosome"],a:1,d:"Easy"},
+      {q:"If the velocity of an object changes, it has:",o:["No motion","Acceleration","Zero force always","Constant speed always"],a:1,d:"Medium"},
+      {q:"Why does a passenger fall forward when a moving bus stops suddenly?",o:["Friction","Inertia of motion","Gravity disappears","Air pressure"],a:1,d:"Hard"}
+    ]
+  };
 
-const questions = [
-{
-q:"What is the basic unit of life?",
-o:["Tissue","Cell","Organ","Organ system"],
-a:1
-},
-{
-q:"Which organelle is called the powerhouse of the cell?",
-o:["Nucleus","Ribosome","Mitochondria","Vacuole"],
-a:2
-},
-{
-q:"What is the SI unit of force?",
-o:["Joule","Newton","Watt","Pascal"],
-a:1
-},
-{
-q:"Which state of matter has a definite shape and volume?",
-o:["Solid","Liquid","Gas","All of these"],
-a:0
-},
-{
-q:"What is the chemical formula of water?",
-o:["CO2","O2","H2O","NaCl"],
-a:2
-},
-{
-q:"Which tissue transports water in plants?",
-o:["Phloem","Xylem","Epidermis","Meristem"],
-a:1
-},
-{
-q:"Which particle has a negative charge?",
-o:["Proton","Neutron","Electron","Nucleus"],
-a:2
-},
-{
-q:"What is the speed of an object that covers 100 m in 20 seconds?",
-o:["2 m/s","5 m/s","10 m/s","20 m/s"],
-a:1
-},
-{
-q:"Which gas is necessary for respiration?",
-o:["Nitrogen","Oxygen","Hydrogen","Carbon dioxide"],
-a:1
-},
-{
-q:"What is the approximate value of acceleration due to gravity on Earth?",
-o:["4.8 m/s²","6.8 m/s²","9.8 m/s²","12.8 m/s²"],
-a:2
-}
-];
+  let questions = [];
+  let current = 0;
+  let score = 0;
+  let answered = false;
+  let timeLeft = 30;
+  let timer = null;
 
-let current = 0;
-let score = 0;
-let answered = false;
+  const get = id => document.getElementById(id);
+  const setup = get("sh-quiz-setup");
+  const screen = get("sh-quiz-screen");
+  const result = get("sh-quiz-result");
+  const start = get("sh-quiz-start");
+  const next = get("sh-quiz-next");
 
-const start = document.getElementById("sh-quiz-start");
-const screen = document.getElementById("sh-quiz-screen");
-const result = document.getElementById("sh-quiz-result");
-const question = document.getElementById("sh-quiz-question");
-const options = document.getElementById("sh-quiz-options");
-const progress = document.getElementById("sh-quiz-progress");
-const feedback = document.getElementById("sh-quiz-feedback");
-const next = document.getElementById("sh-quiz-next");
-
-function showQuestion(){
-
-  answered = false;
-  const item = questions[current];
-
-  progress.innerText =
-    "Question " + (current+1) + " / " + questions.length +
-    " | Score: " + score;
-
-  question.innerText = item.q;
-  options.innerHTML = "";
-  feedback.innerText = "";
-  next.style.display = "none";
-
-  item.o.forEach((option,index)=>{
-
-    const btn = document.createElement("button");
-    btn.className = "sh-option";
-    btn.innerText = option;
-
-    btn.onclick = ()=>checkAnswer(index);
-
-    options.appendChild(btn);
-
-  });
-}
-
-function checkAnswer(index){
-
-  if(answered) return;
-  answered = true;
-
-  const correct = questions[current].a;
-  const buttons = options.querySelectorAll("button");
-
-  buttons.forEach(btn=>btn.disabled=true);
-
-  if(index === correct){
-
-    score += 10;
-    feedback.innerText = "✅ Correct! +10 Points";
-
-  } else {
-
-    feedback.innerText =
-      "❌ Wrong! Correct answer: " +
-      questions[current].o[correct];
-
+  function shuffle(array){
+    const copy = array.slice();
+    for(let i=copy.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [copy[i],copy[j]]=[copy[j],copy[i]];
+    }
+    return copy;
   }
 
-  progress.innerText =
-    "Question " + (current+1) + " / " +
-    questions.length + " | Score: " + score;
+  function stopTimer(){
+    clearInterval(timer);
+    timer = null;
+  }
 
-  next.style.display = "block";
-}
+  function startTimer(){
+    stopTimer();
+    timeLeft = 30;
+    get("sh-quiz-timer").innerText = "⏱️ " + timeLeft + " seconds";
 
-function finishQuiz(){
+    timer = setInterval(()=>{
+      timeLeft--;
+      get("sh-quiz-timer").innerText = "⏱️ " + timeLeft + " seconds";
+      if(timeLeft <= 0){
+        stopTimer();
+        checkAnswer(-1);
+      }
+    },1000);
+  }
 
-  screen.style.display = "none";
-  result.style.display = "block";
+  function showQuestion(){
+    answered = false;
+    const item = questions[current];
 
-  document.getElementById("sh-quiz-score").innerText =
-    score + " / 100 Points";
+    get("sh-quiz-progress").innerText =
+      "Question " + (current+1) + " / " + questions.length +
+      " | Score: " + score;
 
-}
+    get("sh-quiz-question").innerText = item.q;
+    get("sh-quiz-feedback").innerText = "";
+    get("sh-quiz-options").innerHTML = "";
+    next.style.display = "none";
 
-start.onclick = ()=>{
+    item.o.forEach((option,index)=>{
+      const btn = document.createElement("button");
+      btn.className = "sh-option";
+      btn.innerText = option;
+      btn.onclick = ()=>checkAnswer(index);
+      get("sh-quiz-options").appendChild(btn);
+    });
 
-  current = 0;
-  score = 0;
+    startTimer();
+  }
 
-  start.style.display = "none";
-  result.style.display = "none";
-  screen.style.display = "block";
+  function checkAnswer(index){
+    if(answered) return;
+    answered = true;
+    stopTimer();
 
-  showQuestion();
+    const item = questions[current];
+    const buttons = get("sh-quiz-options").querySelectorAll("button");
+    buttons.forEach(btn=>btn.disabled=true);
 
-};
+    if(index === item.a){
+      score += 10;
+      get("sh-quiz-feedback").innerText = "✅ Correct! +10 Points";
+    } else if(index === -1){
+      get("sh-quiz-feedback").innerText =
+        "⏰ Time's up! Correct answer: " + item.o[item.a];
+    } else {
+      get("sh-quiz-feedback").innerText =
+        "❌ Wrong! Correct answer: " + item.o[item.a];
+    }
 
-next.onclick = ()=>{
+    get("sh-quiz-progress").innerText =
+      "Question " + (current+1) + " / " +
+      questions.length + " | Score: " + score;
 
-  current++;
+    next.style.display = "block";
+  }
 
-  if(current < questions.length){
+  function finishQuiz(){
+    stopTimer();
+    screen.style.display = "none";
+    result.style.display = "block";
+    get("sh-quiz-score").innerText =
+      score + " / " + (questions.length*10) + " Points";
+
+    get("sh-quiz-message-result").innerText =
+      score >= questions.length*8 ? "Excellent work! 🏆" :
+      score >= questions.length*5 ? "Good effort! Keep practising! ⭐" :
+      "Keep learning and try again! 💪";
+  }
+
+  start.onclick = ()=>{
+    const cls = get("sh-quiz-class").value;
+    const subject = get("sh-quiz-subject").value;
+    const level = get("sh-quiz-level").value;
+
+    if(!cls || !subject){
+      get("sh-quiz-message").innerText =
+        "Please select your class and subject.";
+      return;
+    }
+
+    const key = cls + "|" + subject;
+    let bank = banks[key] || [];
+
+    if(level !== "All"){
+      bank = bank.filter(q=>q.d===level);
+    }
+
+    if(bank.length < 20){
+      get("sh-quiz-message").innerText =
+        "Is class aur subject ka question bank abhi taiyar ho raha hai. Filhaal Class 9 Science try karo.";
+      return;
+    }
+
+    questions = shuffle(bank).slice(0,20);
+    current = 0;
+    score = 0;
+
+    setup.style.display = "none";
+    result.style.display = "none";
+    screen.style.display = "block";
     showQuestion();
-  } else {
-    finishQuiz();
-  }
+  };
 
-};
+  next.onclick = ()=>{
+    current++;
+    if(current < questions.length){
+      showQuestion();
+    } else {
+      finishQuiz();
+    }
+  };
 
-document.getElementById("sh-quiz-restart").onclick = ()=>{
-
-  result.style.display = "none";
-  start.style.display = "block";
-
-};
-
+  get("sh-quiz-restart").onclick = ()=>{
+    stopTimer();
+    result.style.display = "none";
+    screen.style.display = "none";
+    setup.style.display = "block";
+    get("sh-quiz-message").innerText = "";
+  };
 })();
-</script>
+  </script>
+  
   
 </body>
 </html>
