@@ -884,10 +884,12 @@ logoutBtn.onclick = async () => {
     </select>
 
     <button id="sh-quiz-start">🚀 START QUIZ</button>
+    <button id="sh-quiz-result-back">⬅ BACK TO SETTINGS</button>
     <p id="sh-quiz-message"></p>
   </div>
 
   <div id="sh-quiz-screen" style="display:none">
+    <button id="sh-quiz-back">⬅ BACK TO SETTINGS</button>
     <p id="sh-quiz-progress"></p>
     <p id="sh-quiz-timer">⏱️ 30 seconds</p>
     <h3 id="sh-quiz-question"></h3>
@@ -906,7 +908,25 @@ logoutBtn.onclick = async () => {
 
 <script>
 (function(){
-  
+
+ function shQuizGoBack(){
+  const settings = document.getElementById("sh-quiz-settings");
+  const screen = document.getElementById("sh-quiz-screen");
+  const result = document.getElementById("sh-quiz-result");
+
+  if(typeof timer !== "undefined"){
+    clearInterval(timer);
+  }
+
+  settings.style.display = "block";
+  screen.style.display = "none";
+  result.style.display = "none";
+
+  document.getElementById("sh-quiz-message").innerText = "";
+}
+
+document.getElementById("sh-quiz-back").onclick = shQuizGoBack;
+document.getElementById("sh-quiz-result-back").onclick = shQuizGoBack; 
 const banks = {
   "Class 9|Science": [
 
@@ -1288,11 +1308,11 @@ const banks = {
       bank = bank.filter(q=>q.d===level);
     }
 
-    if(bank.length < 20){
-      get("sh-quiz-message").innerText =
-        "Is class aur subject ka question bank abhi taiyar ho raha hai. Filhaal Class 9 Science try karo.";
-      return;
-    }
+    if(bank.length === 0){
+  get("sh-quiz-message").innerText =
+    "Is difficulty ke questions abhi available nahi hain.";
+  return;
+  }
 
     questions = shuffle(bank).slice(0,20);
     current = 0;
