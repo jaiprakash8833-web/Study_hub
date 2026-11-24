@@ -906,30 +906,132 @@ logoutBtn.onclick = async () => {
 
 <script>
 (function(){
-  const banks = {
-    "Class 9|Science": [
-      {q:"What is the basic unit of life?",o:["Tissue","Cell","Organ","Organ system"],a:1,d:"Easy"},
-      {q:"Which organelle is called the powerhouse of the cell?",o:["Nucleus","Ribosome","Mitochondria","Vacuole"],a:2,d:"Easy"},
-      {q:"What is the SI unit of force?",o:["Joule","Newton","Watt","Pascal"],a:1,d:"Easy"},
-      {q:"Which state of matter has a definite shape and volume?",o:["Solid","Liquid","Gas","All"],a:0,d:"Easy"},
-      {q:"What is the chemical formula of water?",o:["CO2","O2","H2O","NaCl"],a:2,d:"Easy"},
-      {q:"Which tissue transports water in plants?",o:["Phloem","Xylem","Epidermis","Meristem"],a:1,d:"Easy"},
-      {q:"Which particle has a negative charge?",o:["Proton","Neutron","Electron","Nucleus"],a:2,d:"Easy"},
-      {q:"A body covers 100 m in 20 s. What is its speed?",o:["2 m/s","5 m/s","10 m/s","20 m/s"],a:1,d:"Medium"},
-      {q:"Which gas is needed for aerobic respiration?",o:["Nitrogen","Oxygen","Hydrogen","Carbon dioxide"],a:1,d:"Easy"},
-      {q:"What is the approximate value of g on Earth?",o:["4.8 m/s²","6.8 m/s²","9.8 m/s²","12.8 m/s²"],a:2,d:"Easy"},
-      {q:"Which part of a cell controls its activities?",o:["Cell wall","Nucleus","Vacuole","Cytoplasm"],a:1,d:"Easy"},
-      {q:"Which method is used to separate cream from milk?",o:["Filtration","Sublimation","Centrifugation","Evaporation"],a:2,d:"Medium"},
-      {q:"The smallest particle of an element that retains its properties is:",o:["Molecule","Atom","Cell","Compound"],a:1,d:"Easy"},
-      {q:"Which law states that mass is neither created nor destroyed in a chemical reaction?",o:["Law of constant proportions","Law of conservation of mass","Newton's law","Ohm's law"],a:1,d:"Medium"},
-      {q:"What is the SI unit of work?",o:["Newton","Watt","Joule","Pascal"],a:2,d:"Easy"},
-      {q:"A force of 10 N acts on a mass of 2 kg. Find acceleration.",o:["2 m/s²","5 m/s²","10 m/s²","20 m/s²"],a:1,d:"Medium"},
-      {q:"Which plant tissue is responsible for growth?",o:["Permanent tissue","Meristematic tissue","Xylem","Phloem"],a:1,d:"Medium"},
-      {q:"Which organelle contains chlorophyll?",o:["Mitochondrion","Chloroplast","Nucleus","Ribosome"],a:1,d:"Easy"},
-      {q:"If the velocity of an object changes, it has:",o:["No motion","Acceleration","Zero force always","Constant speed always"],a:1,d:"Medium"},
-      {q:"Why does a passenger fall forward when a moving bus stops suddenly?",o:["Friction","Inertia of motion","Gravity disappears","Air pressure"],a:1,d:"Hard"}
-    ]
-  };
+  
+const banks = {
+  "Class 9|Science": [
+
+    // MATTER IN OUR SURROUNDINGS
+    {q:"Which state of matter has a fixed shape and fixed volume?",o:["Solid","Liquid","Gas","Plasma"],a:0,d:"Easy"},
+    {q:"What is the SI unit of temperature?",o:["Celsius","Kelvin","Fahrenheit","Joule"],a:1,d:"Easy"},
+    {q:"Which process converts a liquid into vapour?",o:["Condensation","Freezing","Vaporisation","Sublimation"],a:2,d:"Easy"},
+    {q:"Why does evaporation cause cooling?",o:["Particles lose energy","High-energy particles escape","Temperature increases","Particles stop moving"],a:1,d:"Medium"},
+    {q:"Which substance undergoes sublimation?",o:["Salt","Sugar","Camphor","Sand"],a:2,d:"Easy"},
+    {q:"At what temperature does water boil at standard atmospheric pressure?",o:["0°C","50°C","100°C","150°C"],a:2,d:"Easy"},
+    {q:"The particles of matter are:",o:["Always stationary","Continuously moving","Without mass","Visible to naked eye"],a:1,d:"Easy"},
+    {q:"Which factor increases the rate of evaporation?",o:["High humidity","Low temperature","Large surface area","Low wind speed"],a:2,d:"Medium"},
+    {q:"What is the process of gas changing into liquid called?",o:["Evaporation","Condensation","Melting","Sublimation"],a:1,d:"Easy"},
+    {q:"Why can gases be compressed easily?",o:["They have no mass","They have large spaces between particles","Their particles are fixed","They have strong attraction"],a:1,d:"Medium"},
+
+    // IS MATTER AROUND US PURE
+    {q:"A mixture of salt and water is a:",o:["Suspension","Colloid","Solution","Compound"],a:2,d:"Easy"},
+    {q:"Which method separates cream from milk?",o:["Filtration","Centrifugation","Sublimation","Crystallisation"],a:1,d:"Easy"},
+    {q:"Which mixture shows the Tyndall effect?",o:["True solution","Colloid","Pure water","Salt solution"],a:1,d:"Medium"},
+    {q:"Which method is used to separate different gases from air?",o:["Filtration","Fractional distillation","Handpicking","Sedimentation"],a:1,d:"Medium"},
+    {q:"Which of these is a pure substance?",o:["Air","Milk","Distilled water","Soil"],a:2,d:"Easy"},
+    {q:"What is the size of particles in a true solution generally?",o:["Less than 1 nm","1–100 nm","More than 100 nm","Always visible"],a:0,d:"Hard"},
+    {q:"Which technique separates an insoluble solid from a liquid?",o:["Filtration","Distillation","Chromatography","Sublimation"],a:0,d:"Easy"},
+    {q:"Which of these is a heterogeneous mixture?",o:["Salt solution","Sugar solution","Air","Oil and water"],a:3,d:"Easy"},
+    {q:"What is the dispersed phase in a colloid?",o:["The medium","The particles distributed","The solvent only","The container"],a:1,d:"Hard"},
+    {q:"Which method can separate dyes in ink?",o:["Chromatography","Filtration","Decantation","Evaporation"],a:0,d:"Medium"},
+
+    // ATOMS AND MOLECULES
+    {q:"Who proposed the law of conservation of mass?",o:["Dalton","Lavoisier","Rutherford","Bohr"],a:1,d:"Medium"},
+    {q:"What is the chemical symbol of sodium?",o:["S","So","Na","N"],a:2,d:"Easy"},
+    {q:"What is the molecular mass of water?",o:["16 u","18 u","20 u","22 u"],a:1,d:"Easy"},
+    {q:"How many atoms are present in one molecule of O2?",o:["1","2","3","4"],a:1,d:"Easy"},
+    {q:"What is the valency of oxygen?",o:["1","2","3","4"],a:1,d:"Easy"},
+    {q:"What is the formula of calcium chloride?",o:["CaCl","CaCl2","Ca2Cl","Ca2Cl2"],a:1,d:"Medium"},
+    {q:"One mole contains approximately how many particles?",o:["6.022 × 10²³","3.14 × 10²³","9.8 × 10²³","1.6 × 10²³"],a:0,d:"Medium"},
+    {q:"What is the atomicity of ozone (O3)?",o:["1","2","3","4"],a:2,d:"Easy"},
+    {q:"What is the formula of aluminium oxide?",o:["AlO","AlO2","Al2O3","Al3O2"],a:2,d:"Hard"},
+    {q:"What is the molecular mass of CO2?",o:["28 u","32 u","40 u","44 u"],a:3,d:"Medium"},
+
+    // STRUCTURE OF THE ATOM
+    {q:"Which subatomic particle has a negative charge?",o:["Proton","Neutron","Electron","Nucleus"],a:2,d:"Easy"},
+    {q:"Who discovered the electron?",o:["Rutherford","J.J. Thomson","Chadwick","Bohr"],a:1,d:"Easy"},
+    {q:"Who discovered the neutron?",o:["James Chadwick","Rutherford","Dalton","Goldstein"],a:0,d:"Medium"},
+    {q:"The nucleus of an atom contains:",o:["Only electrons","Protons and neutrons","Only neutrons","Electrons and protons"],a:1,d:"Easy"},
+    {q:"What is the atomic number equal to?",o:["Number of neutrons","Number of protons","Protons + neutrons","Number of shells"],a:1,d:"Easy"},
+    {q:"What is the mass number of an atom?",o:["Protons only","Neutrons only","Protons + neutrons","Electrons + neutrons"],a:2,d:"Medium"},
+    {q:"Isotopes have the same:",o:["Mass number","Number of neutrons","Atomic number","Physical mass"],a:2,d:"Medium"},
+    {q:"How many electrons can the K shell hold at maximum?",o:["2","8","18","32"],a:0,d:"Easy"},
+    {q:"What is the electronic configuration of sodium (atomic number 11)?",o:["2, 8, 1","2, 7, 2","2, 6, 3","2, 8, 2"],a:0,d:"Medium"},
+    {q:"Which model proposed that electrons revolve in fixed energy shells?",o:["Dalton model","Thomson model","Bohr model","Rutherford model"],a:2,d:"Medium"},
+
+    // THE FUNDAMENTAL UNIT OF LIFE
+    {q:"What is the basic structural and functional unit of life?",o:["Tissue","Cell","Organ","Organ system"],a:1,d:"Easy"},
+    {q:"Who discovered cells?",o:["Robert Hooke","Robert Brown","Darwin","Mendel"],a:0,d:"Easy"},
+    {q:"Which organelle is called the powerhouse of the cell?",o:["Nucleus","Mitochondria","Ribosome","Golgi apparatus"],a:1,d:"Easy"},
+    {q:"Which cell organelle controls most cell activities?",o:["Vacuole","Nucleus","Cell wall","Lysosome"],a:1,d:"Easy"},
+    {q:"Which structure is present in plant cells but absent in animal cells?",o:["Cell membrane","Cytoplasm","Cell wall","Nucleus"],a:2,d:"Easy"},
+    {q:"Which organelle helps in photosynthesis?",o:["Mitochondria","Chloroplast","Ribosome","Lysosome"],a:1,d:"Easy"},
+    {q:"What is the jelly-like substance inside a cell called?",o:["Cytoplasm","Cell wall","Chromosome","Nucleolus"],a:0,d:"Easy"},
+    {q:"Which organelle is involved in protein synthesis?",o:["Ribosome","Vacuole","Lysosome","Chloroplast"],a:0,d:"Medium"},
+    {q:"Which organelle is called the suicide bag of the cell?",o:["Mitochondria","Lysosome","Golgi body","Nucleus"],a:1,d:"Medium"},
+    {q:"What happens to a plant cell placed in a hypotonic solution?",o:["It shrinks","It becomes turgid","It bursts immediately","It loses its cell wall"],a:1,d:"Hard"},
+
+    // TISSUES
+    {q:"A group of similar cells performing a specific function is called:",o:["Organ","Tissue","Organ system","Organism"],a:1,d:"Easy"},
+    {q:"Which plant tissue transports water?",o:["Phloem","Xylem","Epidermis","Cork"],a:1,d:"Easy"},
+    {q:"Which tissue transports food in plants?",o:["Xylem","Phloem","Meristem","Collenchyma"],a:1,d:"Easy"},
+    {q:"Which tissue is responsible for growth in plants?",o:["Permanent tissue","Meristematic tissue","Epidermis","Sclerenchyma"],a:1,d:"Easy"},
+    {q:"Which tissue connects muscles to bones?",o:["Ligament","Tendon","Cartilage","Areolar tissue"],a:1,d:"Medium"},
+    {q:"Which tissue connects bone to bone?",o:["Tendon","Ligament","Muscle","Nervous tissue"],a:1,d:"Medium"},
+    {q:"Which muscle tissue is voluntary?",o:["Smooth muscle","Cardiac muscle","Striated muscle","All muscles"],a:2,d:"Medium"},
+    {q:"Which tissue forms the lining of the mouth?",o:["Squamous epithelium","Nervous tissue","Bone","Blood"],a:0,d:"Medium"},
+    {q:"Which tissue helps in the transmission of messages?",o:["Muscular tissue","Nervous tissue","Connective tissue","Epithelial tissue"],a:1,d:"Easy"},
+    {q:"Which plant tissue provides flexibility to stems?",o:["Sclerenchyma","Collenchyma","Xylem","Cork"],a:1,d:"Hard"},
+
+    // MOTION
+    {q:"What is the SI unit of speed?",o:["m/s","km","m/s²","Newton"],a:0,d:"Easy"},
+    {q:"What is the formula for speed?",o:["Distance × Time","Distance / Time","Time / Distance","Distance + Time"],a:1,d:"Easy"},
+    {q:"A car travels 100 m in 20 seconds. Its speed is:",o:["2 m/s","5 m/s","10 m/s","20 m/s"],a:1,d:"Easy"},
+    {q:"Which quantity has both magnitude and direction?",o:["Distance","Speed","Displacement","Time"],a:2,d:"Medium"},
+    {q:"What is the SI unit of acceleration?",o:["m/s","m/s²","km/h","Newton"],a:1,d:"Easy"},
+    {q:"A body moving with constant speed in a straight line has:",o:["Uniform motion","Non-uniform motion","Circular motion","Random motion"],a:0,d:"Easy"},
+    {q:"The slope of a distance-time graph represents:",o:["Acceleration","Speed","Force","Momentum"],a:1,d:"Medium"},
+    {q:"The slope of a velocity-time graph represents:",o:["Distance","Speed","Acceleration","Displacement"],a:2,d:"Medium"},
+    {q:"A body starts from rest and reaches 20 m/s in 5 seconds. Its acceleration is:",o:["2 m/s²","4 m/s²","5 m/s²","10 m/s²"],a:1,d:"Medium"},
+    {q:"What is the area under a velocity-time graph equal to?",o:["Acceleration","Displacement","Force","Speed"],a:1,d:"Hard"},
+
+    // FORCE AND LAWS OF MOTION
+    {q:"What is the SI unit of force?",o:["Joule","Newton","Watt","Pascal"],a:1,d:"Easy"},
+    {q:"Newton's first law is also known as the law of:",o:["Gravitation","Inertia","Acceleration","Action"],a:1,d:"Easy"},
+    {q:"Which law gives the relation F = ma?",o:["First law","Second law","Third law","Law of gravitation"],a:1,d:"Easy"},
+    {q:"For every action, there is an equal and opposite reaction. This is:",o:["First law","Second law","Third law","Law of inertia"],a:2,d:"Easy"},
+    {q:"What is the SI unit of momentum?",o:["kg m/s","kg m/s²","N/m","Joule"],a:0,d:"Medium"},
+    {q:"A force of 10 N acts on a 2 kg object. Find its acceleration.",o:["2 m/s²","5 m/s²","10 m/s²","20 m/s²"],a:1,d:"Medium"},
+    {q:"Why does a passenger move forward when a bus stops suddenly?",o:["Friction","Inertia of motion","Gravity","Magnetism"],a:1,d:"Medium"},
+    {q:"What happens to momentum if velocity doubles and mass remains constant?",o:["It halves","It doubles","It becomes zero","It remains same"],a:1,d:"Medium"},
+    {q:"A gun recoils after firing due to conservation of:",o:["Energy only","Momentum","Temperature","Pressure"],a:1,d:"Hard"},
+    {q:"If the net external force on an object is zero, its momentum:",o:["Must increase","Must decrease","Remains constant","Becomes zero"],a:2,d:"Hard"},
+
+    // GRAVITATION
+    {q:"What is the approximate value of g on Earth?",o:["4.8 m/s²","6.8 m/s²","9.8 m/s²","12.8 m/s²"],a:2,d:"Easy"},
+    {q:"Who proposed the universal law of gravitation?",o:["Einstein","Newton","Galileo","Bohr"],a:1,d:"Easy"},
+    {q:"The force of gravitation between two objects is always:",o:["Repulsive","Attractive","Zero","Magnetic"],a:1,d:"Easy"},
+    {q:"What is the SI unit of weight?",o:["Kilogram","Newton","Metre","Joule"],a:1,d:"Easy"},
+    {q:"Weight is calculated using:",o:["W = m/g","W = mg","W = g/m","W = m + g"],a:1,d:"Medium"},
+    {q:"What happens to the weight of an object on the Moon?",o:["It becomes six times","It becomes about one-sixth","It stays exactly same","It becomes zero"],a:1,d:"Medium"},
+    {q:"What is the SI unit of universal gravitational constant G?",o:["N m²/kg²","N/kg","kg m/s","m/s²"],a:0,d:"Hard"},
+    {q:"Why does an object in free fall accelerate?",o:["Due to friction","Due to gravity","Due to magnetism","Due to pressure"],a:1,d:"Easy"},
+    {q:"What is the buoyant force?",o:["Downward force by air","Upward force by fluid","Force due to magnet","Force due to friction"],a:1,d:"Medium"},
+    {q:"An object floats in a liquid when its average density is:",o:["Greater than liquid","Less than liquid","Always zero","Infinite"],a:1,d:"Hard"},
+
+    // WORK AND ENERGY
+    {q:"What is the SI unit of work?",o:["Newton","Joule","Watt","Pascal"],a:1,d:"Easy"},
+    {q:"Work is done when a force causes:",o:["Only heating","Displacement","Only sound","No movement"],a:1,d:"Easy"},
+    {q:"What is the formula for kinetic energy?",o:["mv","½mv²","mgh","F × d"],a:1,d:"Medium"},
+    {q:"Potential energy due to height is:",o:["½mv²","mgh","ma","mv"],a:1,d:"Medium"},
+    {q:"What is the SI unit of power?",o:["Joule","Newton","Watt","Kilogram"],a:2,d:"Easy"},
+    {q:"One kilowatt is equal to:",o:["10 W","100 W","1000 W","10,000 W"],a:2,d:"Easy"},
+    {q:"Which energy does a moving object possess?",o:["Potential energy","Kinetic energy","Chemical energy only","Nuclear energy"],a:1,d:"Easy"},
+    {q:"If the speed of an object doubles, its kinetic energy becomes:",o:["Two times","Three times","Four times","Half"],a:2,d:"Hard"},
+    {q:"The rate of doing work is called:",o:["Energy","Power","Force","Momentum"],a:1,d:"Easy"},
+    {q:"According to the law of conservation of energy, energy:",o:["Can be created","Can be destroyed","Can change form but total energy is conserved","Always disappears"],a:2,d:"Medium"}
+  ]
+};
+  
 
   let questions = [];
   let current = 0;
