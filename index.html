@@ -611,7 +611,7 @@ async function sendStudyQuestion(){
   messages.scrollTop=messages.scrollHeight;
 
   try{
-    const response=await fetch("/api/chat",{
+    const response=await fetch("https://study-hub-topaz-five.vercel.app/api/chat",{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({message})
