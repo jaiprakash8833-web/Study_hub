@@ -1,4 +1,15 @@
+
 export default async function handler(req, res) {
+  const allowedOrigin = "https://jaiprakash8833-web.github.io";
+
+  res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") {
+    return res.status(204).end();
+  }
+
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Only POST requests allowed" });
   }
@@ -47,14 +58,14 @@ export default async function handler(req, res) {
       });
     }
 
-    const answer =
-      data.candidates?.[0]?.content?.parts
-        ?.map(part => part.text || "")
-        .join("") || "Sorry, I could not generate an answer.";
+    const answer = data.candidates?.[0]?.content?.parts
+      ?.map(part => part.text || "").join("")
+      || "Sorry, I could not generate an answer.";
 
     return res.status(200).json({ answer });
 
   } catch (error) {
     return res.status(500).json({ error: "Something went wrong" });
   }
-      }
+}
+  
