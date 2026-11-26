@@ -621,7 +621,7 @@ async function sendStudyQuestion(){
     loading.remove();
 
     const answer=document.createElement("p");
-    answer.textContent="🤖 " + (data.answer || data.error || "Please try again.");
+    answer.textContent="🤖 " + (data.answer || (data.error + ": " + (data.details || "Please try again")));
     messages.appendChild(answer);
 
   }catch(error){
